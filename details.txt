@@ -1,0 +1,525 @@
+1
+Register Team
+Register or manage your team to receive a unique team ID, updates, and access to submission instructions.
+
+
+
+Register or manage team
+2
+Receive Unique Team ID
+After registration, each team is issued a unique identifier that must be used for all benchmark submissions and leaderboard entries. Include this team number and your exact registered team name in the abstract of your workshop paper.
+
+
+these are my details Team ID
+RoCo-45
+Team name
+Flow State
+Primary contact/login email
+syedmuhaimintahsin@gmail.com
+Created
+Sep 8, 2026, 10:32 PM
+Last updated
+Sep 8, 2026, 10:45 PM
+Revision
+2
+Selected Tracks
+Optical Flow
+Stereo Matching
+Scene Flow
+Exploration Track
+Organizer Record Sync
+Organizer spreadsheet synchronized at revision 2.
+
+Team Members
+Name	Email	Affiliation
+Syed Mohaiminul Hoque	syedmuhaimintahsin@gmail.com	Center For Computational and Data Sciences Lab, Independent University Bangladesh
+3
+Download Data
+Download the Spring (https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi:10.18419/darus-3376) and RobustSpring (https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi:10.18419/DARUS-5047) training splits needed for model development, local validation, and practice runs.
+
+4
+Install the Starter Kit
+(https://github.com/hmorimitsu/roco-spring-devkit)
+Set up the PTLFlow-based Starter Kit with training and inference scripts, data loaders, and example configurations.
+
+GitHub Starter Kit
+5
+Run Baseline
+Run the provided baseline configurations to verify your environment, data paths, and end-to-end inference pipeline.
+
+6
+Generate Predictions
+Produce model outputs for your chosen task(s) and export them in the required prediction format.
+
+7
+Validate Archive Locally
+Package your predictions into a submission archive and run local validation to catch formatting or naming issues before uploading.
+
+8
+Submit to Benchmark Server
+Upload your validated archive to the benchmark(https://spring-benchmark.org/) to receive scores on the development leaderboard.
+(Spring Dataset and Benchmark Logo
+Spring: L. Mehl, J. Schmalfuss, A. Jahedi, Y. Nalivayko, A. Bruhn — University of Stuttgart
+
+RobustSpring: V. Oei, J. Schmalfuss, L. Mehl, M. Bartsch, S. Agnihotri, M. Keuper, A. Bulling, A. Bruhn — University of Stuttgart, University of Mannheim, MPI for Informatics
+
+Download Stereo Optical Flow Scene Flow Submit FAQ
+syedmuhaimintahsin@gmail.com | Logout
+Submission
+Create New Submission
+✖ Your account is not verified yet by our team. Please check again later.
+
+Instructions
+To participate in the benchmark, prepare and submit your method as follows. You can optionally include robustness evaluation results alongside the standard evaluation.
+
+Prepare predictions on the Spring test split.
+Use our Python I/O utilities for .flo5 and .dsp5: flow_IO.py.
+Follow the exact folder structure, file naming conventions, and formats used in the dataset.
+Standard evaluation folder structure:
+Stereo: <rootdir>/####/disp1_{left|right}/disp1_{left|right}_####.dsp5
+Optical Flow: <rootdir>/####/flow_{FW|BW}_{left|right}/flow_{FW|BW}_{left|right}_####.flo5
+Scene Flow (add disparity over time): <rootdir>/####/disp2_{FW|BW}_{left|right}/disp2_{FW|BW}_{left|right}_####.dsp5
+Optional: Robustness evaluation
+Submit predictions on corrupted versions of the test set (e.g., fog, noise, blur).
+Use the same naming conventions, with an extra top-level folder per corruption.
+Robustness evaluation folder structure:
+Stereo: <rootdir>/<corruption>/test/####/disp1_{left|right}/disp1_{left|right}_####.dsp5
+Optical Flow: <rootdir>/<corruption>/test/####/flow_{FW|BW}_{left|right}/flow_{FW|BW}_{left|right}_####.flo5
+Scene Flow: <rootdir>/<corruption>/test/####/disp2_{FW|BW}_{left|right}/disp2_{FW|BW}_{left|right}_####.dsp5
+Corruption folder names: clean, brightness, contrast, defocus_blur, elastic_transform, fog, frost, gaussian_blur, gaussian_noise, glass_blur, impulse_noise, jpeg_compression, motion_blur, pixelate, rain, saturate, shot_noise, snow, spatter, speckle_noise, zoom_blur.
+Generate submission file(s) with subsampling tools.
+Download the executables: subsampling tools.
+Run in your rootdir:
+./disp1_subsampling <rootdir> — stereo
+./flow_subsampling <rootdir> — optical flow
+./disp2_subsampling <rootdir> — scene flow (with the other two)
+For robustness evaluation, run the corresponding “robust” executables in your root directory containing the corruption subfolders:
+./disp1_robust_subsampling <rootdir> for stereo robustness
+./flow_robust_subsampling <rootdir> for optical flow robustness
+./disp2_robust_subsampling <rootdir> for scene flow robustness (alongside the other two)
+Each command generates one .hdf5 file in the current directory, ready for upload.
+Submit results on the benchmark platform.
+Click the “Create new submission” button above and upload your .hdf5 file(s).
+For scene flow, upload all three files. You may also upload additional robustness evaluation files under the same method entry.
+Evaluation takes ~1-2 hours. You'll receive a notification when done.
+Results default to private. Later you can switch visibility to:
+Private (only you)
+Public Anonymous (no author info)
+Public (with author and method name)
+Your Submissions
+No data available.
+
+Lukas Mehl, Jenny Schmalfuss, Azin Jahedi, Yaroslava Nalivayko, Andrés Bruhn:
+"Spring: A High-Resolution High-Detail Dataset and Benchmark for Scene Flow, Optical Flow and Stereo".
+In IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2023.
+
+Victor Oei, Jenny Schmalfuss, Lukas Mehl, Madlen Bartsch, Shashank Agnihotri, Margret Keuper, Andreas Bulling, Andrés Bruhn:
+"RobustSpring: Benchmarking Robustness to Image Corruptions for Optical Flow, Scene Flow and Stereo".
+In The Fourteenth International Conference on Learning Representations (ICLR), 2026.
+
+Dog from the spring movie called autumn	Logo of University of Stuttgart / VIS Institute	Logo of SFB TRR 161	Logo of IMPRS-IS
+The Spring movie assets by Blender Foundation are licensed under CC BY 4.0. The authors thank Andy Goralczyk, Francesco Siddi and the whole Blender Studio team. Lukas Mehl, Jenny Schmalfuss, and Victor Oei acknowledge funding by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) – Project-ID 251654672 – TRR 161: Quantitative Methods for Visual Computing (B04, A07). Jenny Schmalfuss and Andres Bruhn acknowledge support by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) – Project-ID 533085500 – Robust Optical Flow. Shashank Agnihotri and Margret Keuper acknowledge support by the DFG Research Unit 5336 – Learning to Sense (L2S). Finally, Jenny Schmalfuss, Azin Jahedi, and Victor Oei acknowledge support from the International Max Planck Research School for Intelligent Systems (IMPRS-IS).
+
+Contact | Imprint | Privacy)
+
+
+Spring Dataset and Benchmark Logo
+Spring: L. Mehl, J. Schmalfuss, A. Jahedi, Y. Nalivayko, A. Bruhn — University of Stuttgart
+
+RobustSpring: V. Oei, J. Schmalfuss, L. Mehl, M. Bartsch, S. Agnihotri, M. Keuper, A. Bulling, A. Bruhn — University of Stuttgart, University of Mannheim, MPI for Informatics
+
+Download Stereo Optical Flow Scene Flow Submit FAQ
+syedmuhaimintahsin@gmail.com | Logout
+Download Datasets
+Our benchmark has two dataset components:
+
+Standard evaluation (required): Download the Standard Spring dataset below to measure accuracy on the clean test split.
+Robustness evaluation (optional): Download the Spring robustness dataset if you also want to evaluate performance under corruptions.
+Standard Spring dataset
+Provides clean test-split ground truth for stereo, optical flow, and scene flow on 10 driving sequences.
+Download Standard Spring dataset
+(DOI: 10.18419/DARUS-3376)
+Spring robustness dataset
+Contains the same sequences under 21 realistic corruptions (fog, noise, blur, etc.) for robustness evaluation.
+Download Spring robustness dataset
+(DOI: 10.18419/DARUS-5047)
+After downloading, extract each archive into your chosen rootdir. Your folder tree will include entries like 0003/flow_FW_left/… for the standard split and <corruption>/0003/flow_FW_left/… for robustness. See the FAQ for full instructions on folder structure and submission.
+
+Lukas Mehl, Jenny Schmalfuss, Azin Jahedi, Yaroslava Nalivayko, Andrés Bruhn:
+"Spring: A High-Resolution High-Detail Dataset and Benchmark for Scene Flow, Optical Flow and Stereo".
+In IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2023.
+
+Victor Oei, Jenny Schmalfuss, Lukas Mehl, Madlen Bartsch, Shashank Agnihotri, Margret Keuper, Andreas Bulling, Andrés Bruhn:
+"RobustSpring: Benchmarking Robustness to Image Corruptions for Optical Flow, Scene Flow and Stereo".
+In The Fourteenth International Conference on Learning Representations (ICLR), 2026.
+
+Dog from the spring movie called autumn	Logo of University of Stuttgart / VIS Institute	Logo of SFB TRR 161	Logo of IMPRS-IS
+The Spring movie assets by Blender Foundation are licensed under CC BY 4.0. The authors thank Andy Goralczyk, Francesco Siddi and the whole Blender Studio team. Lukas Mehl, Jenny Schmalfuss, and Victor Oei acknowledge funding by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) – Project-ID 251654672 – TRR 161: Quantitative Methods for Visual Computing (B04, A07). Jenny Schmalfuss and Andres Bruhn acknowledge support by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) – Project-ID 533085500 – Robust Optical Flow. Shashank Agnihotri and Margret Keuper acknowledge support by the DFG Research Unit 5336 – Learning to Sense (L2S). Finally, Jenny Schmalfuss, Azin Jahedi, and Victor Oei acknowledge support from the International Max Planck Research School for Intelligent Systems (IMPRS-IS).
+
+Contact | Imprint | Privacy
+
+Skip to main content
+DaRUS homepage
+Search 
+About
+User Guide
+Support
+Log In
+SFB-TRR 161 B04 "Adaptive Algorithms for Motion Estimation" logo	
+SFB-TRR 161 B04 "Adaptive Algorithms for Motion Estimation"
+(Universität Stuttgart)
+DaRUS>SFB/Transregio 161 "Quantitative Methods for Visual Computing">SFB-TRR 161 B04 "Adaptive Algorithms for Motion Estimation">
+RobustSpring: Benchmarking Robustness to Image Corruptions for Optical Flow, Scene Flow and Stereo
+Version 1.0
+Schmalfuss, Jenny; Oei, Victor; Mehl, Lukas; Bartsch, Madlen; Agnihotri, Shashank; Keuper, Margret; Bruhn, Andres, 2025, "RobustSpring: Benchmarking Robustness to Image Corruptions for Optical Flow, Scene Flow and Stereo", https://doi.org/10.18419/DARUS-5047, DaRUS, V1
+Learn about Data Citation Standards.
+Dataset Metrics 
+35,314 Downloads 
+Description 	
+The RobustSpring dataset contains the image corruption data files for scene flow, optical flow and stereo estimation with the Spring dataset. Note that this repository contains only the Spring test data files. For easier handling, we organized them into sub-directories by image corruption type:
+brightness.zip : brightness image corruption
+contrast.zip : contrast image corruption
+defocus_blur.zip : defocus_blur image corruption
+elastic_transform.zip : elastic_transform image corruption
+fog.zip : fog image corruption
+frost.zip : frost image corruption
+gaussian_blur.zip : gaussian_blur image corruption
+gaussian_noise.zip : gaussian_noise image corruption
+glass_blur.zip : glass_blur image corruption
+impulse_noise.zip : impulse_noise image corruption
+jpeg_compression.zip : jpeg_compression image corruption
+motion_blur.zip : motion_blur image corruption
+pixelate.zip : pixelate image corruption
+rain.zip : rain image corruption
+saturate.zip : saturate image corruption
+shot_noise.zip : shot_noise image corruption
+snow.zip : snow image corruption
+spatter.zip : spatter image corruption
+speckle_noise.zip : speckle_noise image corruption
+zoom_blur.zip : zoom_blur image corruption
+
+Each image corruption folder is internally organized as follows:
+test : Indicates that this is the test proportion of the Spring dataset
+0003: Scene subfolder for scene 0003, 131 frames
+frame_left: Left frames
+frame_left_0001.png: Frame 0001
+...
+frame_left_0131.png: Frame 0131
+frame_right: Right frames
+frame_right_0001.png: Frame 0001
+...
+frame_right_0131.png: Frame 0131
+0019: Scene 0019, same internal structure as above, 111 frames.
+0028: Scene 0028, same internal structure as above, 39 frames.
+0028: Scene 0029, same internal structure as above, 135 frames.
+0031: Scene 0031, same internal structure as above, 73 frames.
+0034: Scene 0034, same internal structure as above, 47 frames.
+0035: Scene 0035, same internal structure as above, 120 frames.
+0040: Scene 0040, same internal structure as above, 111 frames.
+0042: Scene 0042, same internal structure as above, 116 frames.
+0046: Scene 0046, same internal structure as above, 117 frames.
+
+File Formats:
+All images are given as .png files
+
+For the project website see spring-benchmark.org. (2025-05-13)
+Subject 	Computer and Information Science
+Keyword 	Computer Vision, Optical Flow, Computer Stereo Vision, Benchmark
+Related Publication 	Jenny Schmalfuss, Victor Oei, Lukas Mehl, Madlen Bartsch, Shashank Agnihotri, Margret Keuper, Andrés Bruhn: RobustSpring: Benchmarking Robustness to Image Corruptions for Optical Flow, Scene Flow and Stereo. 2025arXiv: abs/2505.09368
+Data Generation 	Simulation
+License/Data Use Agreement	
+Creative Commons Attribution 4.0 International License. CC BY 4.0
+
+FilesMetadataTermsVersions
+Change View
+
+Table
+
+Tree
+Search
+Search this dataset...
+Filter by
+1 to 20 of 20 Files
+brightness.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 6.1 GB
+Published May 14, 2025
+1,830 Downloads
+MD5: fd3...495 
+contrast.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 2.8 GB
+Published May 14, 2025
+1,684 Downloads
+MD5: 9df...0a0 
+defocus_blur.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 2.7 GB
+Published May 14, 2025
+1,715 Downloads
+MD5: 0a6...921 
+elastic_transform.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 5.0 GB
+Published May 14, 2025
+1,713 Downloads
+MD5: a76...f04 
+fog.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 4.1 GB
+Published May 14, 2025
+1,666 Downloads
+MD5: 938...9df 
+frost.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 6.1 GB
+Published May 14, 2025
+2,072 Downloads
+MD5: ef5...01c 
+gaussian_blur.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 2.4 GB
+Published May 14, 2025
+1,793 Downloads
+MD5: 55f...e37 
+gaussian_noise.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 10.7 GB
+Published May 14, 2025
+1,716 Downloads
+MD5: a15...176 
+glass_blur.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 3.1 GB
+Published May 14, 2025
+1,590 Downloads
+MD5: 430...898 
+impulse_noise.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 7.3 GB
+Published May 14, 2025
+1,622 Downloads
+MD5: 27b...c04 
+jpeg_compression.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 1.0 GB
+Published May 14, 2025
+1,635 Downloads
+MD5: 865...eb0 
+motion_blur.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 4.6 GB
+Published May 14, 2025
+1,755 Downloads
+MD5: bbe...357 
+pixelate.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 306.3 MB
+Published May 14, 2025
+1,665 Downloads
+MD5: 309...9a8 
+rain.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 6.4 GB
+Published May 14, 2025
+1,963 Downloads
+MD5: e8b...070 
+saturate.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 5.4 GB
+Published May 14, 2025
+1,628 Downloads
+MD5: aa9...ebc 
+shot_noise.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 6.5 GB
+Published May 14, 2025
+1,590 Downloads
+MD5: 919...7c4 
+snow.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 6.5 GB
+Published May 14, 2025
+1,741 Downloads
+MD5: 509...cd8 
+spatter.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 6.5 GB
+Published May 14, 2025
+1,802 Downloads
+MD5: c3d...4a6 
+speckle_noise.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 10.8 GB
+Published May 14, 2025
+1,748 Downloads
+MD5: 7d2...833 
+zoom_blur.zip
+Spring-corrupted-submission-zips/
+ZIP Archive - 3.5 GB
+Published May 14, 2025
+2,386 Downloads
+MD5: 5cb...27c 
+F
+P
+1
+N
+E
+Files Per Page 
+50
+Copyright © 2026 | Imprint | Terms of Use | Privacy Policy
+
+Powered by The Dataverse Project logov. 6.11
+ 
+Skip to main content
+DaRUS homepage
+Search 
+About
+User Guide
+Support
+Log In
+SFB-TRR 161 B04 "Adaptive Algorithms for Motion Estimation" logo	
+SFB-TRR 161 B04 "Adaptive Algorithms for Motion Estimation"
+(Universität Stuttgart)
+DaRUS>SFB/Transregio 161 "Quantitative Methods for Visual Computing">SFB-TRR 161 B04 "Adaptive Algorithms for Motion Estimation">
+Spring: A High-Resolution High-Detail Dataset and Benchmark for Scene Flow, Optical Flow and Stereo
+Version 2.0
+Mehl, Lukas; Schmalfuss, Jenny; Jahedi, Azin; Nalivayko, Yaroslava; Bruhn, Andrés, 2023, "Spring: A High-Resolution High-Detail Dataset and Benchmark for Scene Flow, Optical Flow and Stereo", https://doi.org/10.18419/DARUS-3376, DaRUS, V2
+Learn about Data Citation Standards.
+Dataset Metrics 
+378,947 Downloads 
+Description 	
+The Spring dataset contains files for scene flow, optical flow and stereo estimation. For easier handling, we organized them into sub-directories:
+train split:
+train_frame_left.zip: left camera frames
+train_frame_right.zip: right camera frames
+train_disp1_left.zip: left-to-right disparity in the reference frame
+train_disp1_right.zip: right-to-left disparity in the reference frame
+train_disp2_FW_left.zip: left-to-right disparity in the future/forward target frame
+train_disp2_BW_left.zip: left-to-right disparity in the past/backward target frame
+train_disp2_FW_right.zip: right-to-left disparity in the future/forward target frame
+train_disp2_BW_right.zip: right-to-left disparity in the past/backward target frame
+train_flow_FW_left.zip: left forward optical flow
+train_flow_BW_left.zip: left backward optical flow
+train_flow_FW_right.zip: right forward optical flow
+train_flow_BW_right.zip: right backward optical flow
+train_cam_data.zip: camera data: intrinsics, extrinsics, focal distance
+train_maps.zip: additional maps: detail, match, rigid, sky
+test split:
+test_frame_left.zip: left camera frames
+test_frame_right.zip: right camera frames
+test_cam_data.zip: camera data: intrinsics
+
+File formats:
+images and maps are given in png format
+optical flow files are given in HDF5 file format and named .flo5
+disparity files are given in HDF5 file format and named .dsp5
+For the project website see spring-benchmark.org.
+Subject 	Computer and Information Science
+Keyword 	Computer Vision, Optical Flow, Computer Stereo Vision, Benchmark
+Related Publication 	Lukas Mehl, Jenny Schmalfuss, Azin Jahedi, Yaroslava Nalivayko, Andrés Bruhn: Spring: A High-Resolution High-Detail Dataset and Benchmark for Scene Flow, Optical Flow and Stereo. Proc. IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2023.arXiv: 2303.01943
+License/Data Use Agreement	
+Creative Commons Attribution 4.0 International License. CC BY 4.0
+
+FilesMetadataTermsVersions
+Search
+Search this dataset...
+1 to 17 of 17 Files
+test_cam_data.zip
+ZIP Archive - 3.7 KB
+Published Mar 14, 2023
+1,658 Downloads
+MD5: 7de...ecd 
+test_frame_left.zip
+ZIP Archive - 2.8 GB
+Published Mar 14, 2023
+6,951 Downloads
+MD5: f0c...4b4 
+test_frame_right.zip
+ZIP Archive - 2.8 GB
+Published Mar 14, 2023
+11,191 Downloads
+MD5: 914...12d 
+train_cam_data.zip
+ZIP Archive - 466.9 KB
+Published Mar 14, 2023
+1,915 Downloads
+MD5: 9b1...d94 
+train_disp1_left.zip
+ZIP Archive - 9.9 GB
+Published Mar 14, 2023
+43,560 Downloads
+MD5: 953...257 
+train_disp1_right.zip
+ZIP Archive - 9.8 GB
+Published Mar 14, 2023
+32,024 Downloads
+MD5: 867...910 
+train_disp2_BW_left.zip
+ZIP Archive - 9.8 GB
+Published Mar 14, 2023
+3,958 Downloads
+MD5: 32e...6e4 
+train_disp2_BW_right.zip
+ZIP Archive - 9.8 GB
+Published Mar 14, 2023
+3,249 Downloads
+MD5: 703...b13 
+train_disp2_FW_left.zip
+ZIP Archive - 9.8 GB
+Published Mar 14, 2023
+3,955 Downloads
+MD5: 1e3...feb 
+train_disp2_FW_right.zip
+ZIP Archive - 9.8 GB
+Published Jul 17, 2023
+3,089 Downloads
+MD5: bf5...fcb 
+train_flow_BW_left.zip
+ZIP Archive - 44.0 GB
+Published Mar 14, 2023
+12,355 Downloads
+MD5: da6...fcc 
+train_flow_BW_right.zip
+ZIP Archive - 43.7 GB
+Published Mar 14, 2023
+10,844 Downloads
+MD5: 551...881 
+train_flow_FW_left.zip
+ZIP Archive - 44.0 GB
+Published Mar 14, 2023
+55,968 Downloads
+MD5: 5cf...664 
+train_flow_FW_right.zip
+ZIP Archive - 43.7 GB
+Published Jul 17, 2023
+46,218 Downloads
+MD5: d19...5c7 
+train_frame_left.zip
+ZIP Archive - 12.4 GB
+Published Mar 14, 2023
+51,460 Downloads
+MD5: 3a5...71a 
+train_frame_right.zip
+ZIP Archive - 12.4 GB
+Published Mar 14, 2023
+35,642 Downloads
+MD5: 3b6...936 
+train_maps.zip
+ZIP Archive - 4.3 GB
+Published Jul 17, 2023
+54,742 Downloads
+MD5: 6f6...e48 
+F
+P
+1
+N
+E
+Files Per Page 
+50
+Copyright © 2026 | Imprint | Terms of Use | Privacy Policy
+
+Powered by The Dataverse Project logov. 6.11
+ 
+ 
+ 
