@@ -100,6 +100,7 @@ Use the corresponding `*_robust_subsampling` executables for robustness submissi
 
 ## Official resources
 
+- [Experiment 01: RAFT-Sintel optical-flow baseline (Kaggle T4×2 ready)](notebooks/experiment_01_raft_sintel_native.ipynb)
 - [Challenge overview](https://roco-spring.github.io/index.html)
 - [Participation instructions](https://roco-spring.github.io/participate.html)
 - [OpenReview submission venue](https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FRoCo-Spring)

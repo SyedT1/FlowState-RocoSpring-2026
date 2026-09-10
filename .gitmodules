@@ -1,0 +1,6 @@
+[submodule "roco-spring-devkit"]
+	path = roco-spring-devkit
+	url = https://github.com/hmorimitsu/roco-spring-devkit.git
+[submodule "notebooks/raft-sintel-master-baseline/results/roco-spring-devkit"]
+	path = notebooks/raft-sintel-master-baseline/results/roco-spring-devkit
+	url = https://github.com/hmorimitsu/roco-spring-devkit.git

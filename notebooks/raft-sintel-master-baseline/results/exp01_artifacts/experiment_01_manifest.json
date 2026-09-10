@@ -1,0 +1,21 @@
+{
+  "team_id": "RoCo-45",
+  "team_name": "Flow State",
+  "experiment": "01_raft_sintel_32_native",
+  "model": "raft",
+  "model_class": "full RAFT",
+  "parameter_count": 5257536,
+  "checkpoint": "/kaggle/input/datasets/syedmohaiminulhoque/ckpoint/raft-sintel-fb44381e.ckpt",
+  "checkpoint_url": "https://github.com/hmorimitsu/ptlflow/releases/download/weights1/raft-sintel-fb44381e.ckpt",
+  "iterations": 32,
+  "correlation": "triton",
+  "correlation_levels": 4,
+  "correlation_radius": 4,
+  "predict_all_directions": true,
+  "resolution": "1920x1080_native",
+  "devkit_ref": "90ae81a9324c6806dc3c2482aab84a2744215bd9",
+  "prediction_files": 3960,
+  "submission_file": "flow_submission.hdf5",
+  "submission_bytes": 689231090,
+  "submission_sha256": "c0d825415866a03c32c9ce6bfc79f792e5670e61d21b6ba76b47cba1bca2f541"
+}
