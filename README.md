@@ -94,7 +94,7 @@ The benchmark's 1px error breakdown is:
 Let the two consecutive input frames be $I_1,I_2\in[0,1]^{H\times W\times3}$. The loader supplies BGR tensors, and the model applies the notebook's fixed normalization and channel conversion:
 
 $$
-\widetilde I_k = 2\,\operatorname{RGB}(I_k)-1,\qquad k\in\{1,2\}.
+\widetilde I_k = 2\,\mathrm{RGB}(I_k)-1,\qquad k\in\{1,2\}.
 $$
 
 The model uses stride $s=8$ and replicate padding to the nearest compatible size,
@@ -124,7 +124,7 @@ $$
 Concatenating the four $9\times9$ neighborhoods gives $4(2r+1)^2=324$ correlation channels per pixel. A separate context encoder processes $I_1$ and initializes the recurrent hidden state and context features:
 
 $$
-[a,b]=g_\theta(\widetilde I_1),\qquad h_0=\tanh(a),\qquad x=\operatorname{ReLU}(b).
+[a,b]=g_\theta(\widetilde I_1),\qquad h_0=\tanh(a),\qquad x=\mathrm{ReLU}(b).
 $$
 
 RAFT represents low-resolution flow as the difference of two coordinate grids. Both grids initially coincide, hence $F_0=0$. A motion encoder combines the current flow with the sampled correlations, a separable convolutional GRU updates the hidden state, and a two-layer flow head predicts an increment:
@@ -135,7 +135,7 @@ $$
 
 $$
 m_t=E_{\mathrm{motion}}(F_t,c_t),\qquad
-h_{t+1}=\operatorname{SepConvGRU}\!\left(h_t,[x,m_t]\right),
+h_{t+1}=\mathrm{SepConvGRU}\!\left(h_t,[x,m_t]\right),
 $$
 
 $$
@@ -147,14 +147,14 @@ This update is repeated for $T=32$ iterations. The full-resolution prediction us
 
 $$
 \widehat F_T(p)=\sum_{q\in\mathcal N_3(x)}
-\operatorname{softmax}(M_T(p))_q\,\bigl(8F_T(q)\bigr).
+\mathrm{softmax}(M_T(p))_q\,\bigl(8F_T(q)\bigr).
 $$
 
 The factor 8 converts displacement from feature-grid units to input-pixel units. The notebook evaluates the same network with both frame orders, separately for each camera:
 
 $$
-\widehat F_{1\rightarrow2}=\operatorname{RAFT}(I_1,I_2),\qquad
-\widehat F_{2\rightarrow1}=\operatorname{RAFT}(I_2,I_1).
+\widehat F_{1\rightarrow2}=\mathrm{RAFT}(I_1,I_2),\qquad
+\widehat F_{2\rightarrow1}=\mathrm{RAFT}(I_2,I_1).
 $$
 
 No training loss or optimizer is used in the notebook. Its only learned quantities come from the fixed Sintel checkpoint.
@@ -162,22 +162,22 @@ No training loss or optimizer is used in the notebook. Its only learned quantiti
 For interpretation of the reported benchmark metrics, let $e_p=\lVert\widehat F(p)-F^*(p)\rVert_2$ for every valid pixel $p\in V$. Then
 
 $$
-\operatorname{EPE}=\frac{1}{|V|}\sum_{p\in V}e_p,
+\mathrm{EPE}=\frac{1}{|V|}\sum_{p\in V}e_p,
 \qquad
-\operatorname{1px}=\frac{100}{|V|}\sum_{p\in V}\mathbf 1[e_p>1],
+\mathrm{1px}=\frac{100}{|V|}\sum_{p\in V}\mathbf{1}[e_p>1],
 $$
 
 $$
-\operatorname{Fl}=\frac{100}{|V|}\sum_{p\in V}
-\mathbf 1\!\left[e_p>3\ \land\ e_p>0.05\lVert F^*(p)\rVert_2\right].
+\mathrm{Fl}=\frac{100}{|V|}\sum_{p\in V}
+\mathbf{1}\!\left[e_p>3\ \land\ e_p>0.05\lVert F^*(p)\rVert_2\right].
 $$
 
 The devkit's weighted accuracy-under-curve calculation uses thresholds $\delta_i=i/20$ pixels and weights $w_i=1-(i-1)/100$ for $i=1,\ldots,100$:
 
 $$
-A(\delta_i)=\frac{1}{|V|}\sum_{p\in V}\mathbf 1[e_p\le\delta_i],
+A(\delta_i)=\frac{1}{|V|}\sum_{p\in V}\mathbf{1}[e_p\le\delta_i],
 \qquad
-\operatorname{WAUC}=100\frac{\sum_{i=1}^{100}w_iA(\delta_i)}{\sum_{i=1}^{100}w_i}.
+\mathrm{WAUC}=100\frac{\sum_{i=1}^{100}w_iA(\delta_i)}{\sum_{i=1}^{100}w_i}.
 $$
 
 ## Quantitative submission requirements
