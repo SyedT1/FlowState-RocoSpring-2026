@@ -51,9 +51,10 @@ All dates are tentative. Verify them on the [official challenge website](https:/
 - [ ] Download the Spring and RobustSpring training splits
 - [x] Install the [official PTLFlow-based Starter Kit](https://github.com/hmorimitsu/roco-spring-devkit)
 - [x] Run the RAFT-Sintel clean optical-flow baseline
+- [x] Fine-tune RAFT on the Spring `spring-train-left` split
 - [x] Generate and validate the clean Spring optical-flow predictions
 - [x] Upload the validated optical-flow HDF5 to the [Spring benchmark](https://spring-benchmark.org/)
-- [ ] Train or adapt models for the final selected-track submissions
+- [x] Train or adapt a model for the selected optical-flow track
 - [ ] Submit the workshop paper through the [RoCo-Spring OpenReview venue](https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FRoCo-Spring)
 - [ ] Submit the camera-ready paper, code, and reproducibility package
 
@@ -180,6 +181,48 @@ A(\delta_i)=\frac{1}{|V|}\sum_{p\in V}\mathbf{1}[e_p\le\delta_i],
 \mathrm{WAUC}=100\frac{\sum_{i=1}^{100}w_iA(\delta_i)}{\sum_{i=1}^{100}w_i}.
 $$
 
+## Experiment 02 — RAFT fine-tuned on Spring train-left
+
+The second benchmark submission used the separate [Spring fine-tuning notebook](notebooks/raft_spring_finetuned_spring_train_left_10seq/raft-spring-finetune-training/raft-spring-finetune-training.ipynb) and [fine-tuned inference notebook](notebooks/raft_spring_finetuned_spring_train_left_10seq/raft-spring-finetuned-inference/raft-spring-finetuned-inference.ipynb). RAFT was initialized from the same official Sintel checkpoint as Experiment 01, fine-tuned with Spring left-camera forward-flow labels, and then evaluated at native resolution on both cameras and temporal directions.
+
+| Setting | Value |
+| --- | --- |
+| Initialization | `raft-sintel-fb44381e.ckpt` |
+| Training data | Spring `spring-train-left`; sequence `0022` held out for validation |
+| Training schedule | 1 epoch; batch size 1; gradient accumulation 4 |
+| Training crop | 540×960 |
+| Optimization | AdamW; learning rate `1e-5`; weight decay `1e-5`; mixed precision |
+| Recurrent refinements | 12 during training; 32 during inference |
+| Inference input | Native 1920×1080 Spring test frames; no rescaling |
+| Directions and views | Forward and backward flow, independently for left and right cameras |
+| Submission artifact | Git LFS-tracked HDF5, 696,721,788 bytes |
+
+### Spring benchmark result
+
+The fine-tuned model returned **7.762% total 1px error**, **1.765 px EPE**, **3.583% Fl**, and **89.986 WAUC**. Compared with the inference-only RAFT-Sintel baseline, this one-epoch Spring fine-tune was worse on every aggregate metric: 1px increased by 0.996 points, EPE by 0.252 px, and Fl by 0.483 points, while WAUC decreased by 1.051 points. The result is therefore an informative fine-tuning baseline, not the current best submission.
+
+| Experiment | 1px total ↓ | EPE ↓ | Fl ↓ | WAUC ↑ |
+| --- | ---: | ---: | ---: | ---: |
+| RAFT-Sintel inference only | **6.766** | **1.513** | **3.100** | **91.037** |
+| RAFT fine-tuned on Spring train-left | 7.762 | 1.765 | 3.583 | 89.986 |
+
+The complete benchmark breakdown is:
+
+| Region or motion range | 1px ↓ | EPE ↓ | Fl ↓ | WAUC ↑ |
+| --- | ---: | ---: | ---: | ---: |
+| Total | 7.762 | 1.765 | 3.583 | 89.986 |
+| Low detail | 7.397 | 1.675 | 3.392 | 90.291 |
+| High detail | 65.216 | 15.930 | 33.743 | 41.967 |
+| Matched | 6.983 | 1.580 | 3.145 | 90.693 |
+| Unmatched | 39.977 | 9.400 | 21.736 | 60.743 |
+| Rigid | 4.583 | 1.377 | 2.363 | 92.789 |
+| Non-rigid | 31.817 | 4.698 | 12.820 | 68.785 |
+| Not sky | 6.213 | 0.842 | 2.485 | 91.322 |
+| Sky | 31.302 | 15.792 | 20.285 | 69.691 |
+| Motion 0–10 px | 4.288 | 0.827 | 1.756 | 93.293 |
+| Motion 10–40 px | 5.702 | 0.865 | 3.475 | 91.154 |
+| Motion 40+ px | 42.397 | 12.049 | 19.161 | 59.161 |
+
 ## Quantitative submission requirements
 
 Generate predictions on the Spring test split using the dataset's Python I/O utilities for `.flo5` and `.dsp5` files. Preserve the exact dataset sequence numbers, directory layout, and filenames.
@@ -224,6 +267,8 @@ Use the corresponding `*_robust_subsampling` executables for robustness submissi
 ## Official resources
 
 - [Experiment 01: executed RAFT-Sintel optical-flow baseline (Kaggle T4×2)](notebooks/raft-sintel-master-baseline/raft-sintel-master-baseline.ipynb)
+- [Experiment 02: RAFT Spring train-left fine-tuning](notebooks/raft_spring_finetuned_spring_train_left_10seq/raft-spring-finetune-training/raft-spring-finetune-training.ipynb)
+- [Experiment 02: fine-tuned RAFT Spring inference](notebooks/raft_spring_finetuned_spring_train_left_10seq/raft-spring-finetuned-inference/raft-spring-finetuned-inference.ipynb)
 - [Challenge overview](https://roco-spring.github.io/index.html)
 - [Participation instructions](https://roco-spring.github.io/participate.html)
 - [OpenReview submission venue](https://openreview.net/group?id=NeurIPS.cc%2F2026%2FWorkshop%2FRoCo-Spring)
@@ -233,4 +278,4 @@ Use the corresponding `*_robust_subsampling` executables for robustness submissi
 - [RobustSpring dataset](https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi:10.18419/DARUS-5047)
 - Challenge support: roco-spring-org@googlegroups.com
 
-Challenge information was last checked against the official challenge and participation pages on **September 8, 2026**. The Experiment 01 benchmark result was recorded on **September 10, 2026**.
+Challenge information was last checked against the official challenge and participation pages on **September 8, 2026**. The Experiment 01 benchmark result was recorded on **September 10, 2026**, and the Experiment 02 fine-tuned result was recorded on **September 12, 2026**.
